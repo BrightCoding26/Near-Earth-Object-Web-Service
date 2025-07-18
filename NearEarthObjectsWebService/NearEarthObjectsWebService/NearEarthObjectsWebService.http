@@ -1,0 +1,6 @@
+@NearEarthObjectsWebService_HostAddress = http://localhost:5155
+
+GET {{NearEarthObjectsWebService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

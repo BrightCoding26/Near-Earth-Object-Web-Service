@@ -1,0 +1,7 @@
+﻿services:
+  nearearthobjectswebservice:
+    image: nearearthobjectswebservice
+    build:
+      context: .
+      dockerfile: NearEarthObjectsWebService/Dockerfile
+
