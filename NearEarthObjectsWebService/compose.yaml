@@ -1,17 +1,18 @@
 ﻿services:
-  nearearthobjects:
-    image: nearearthobjectswebservice
+  NearEarthObjectsWebService:
+    image: near-earth-objects-web-service
     container_name: NearEarthObjectsWebService
     build:
       context: .
       dockerfile: NearEarthObjectsWebService/Dockerfile
     ports:
-      - "5000:5000"
+      - "8080:8080"
     depends_on:
-      - sqlserver
-  sqlserver:
+      - SqlServer
+  SqlServer:
+    platform: linux/amd64
     image: mcr.microsoft.com/mssql/server:latest
-    container_name: sqlserver
+    container_name: SqlServer
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=strongPassw0rd!
