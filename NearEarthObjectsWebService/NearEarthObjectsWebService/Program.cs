@@ -51,11 +51,14 @@ app.UseRouting();
 
 if (app.Environment.IsDevelopment())
 {
-    //app.UseDeveloperExceptionPage();
+    app.UseDeveloperExceptionPage();
 
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
+        app.UseStaticFiles();
+        options.InjectStylesheet("/swagger-ui/SwaggerDark.css");
+
         options.SwaggerEndpoint($"{UsePathBase}/swagger/all/swagger.json", "All");
 
         foreach (var groupName in app.DescribeApiVersions().Select(d => d.GroupName))
