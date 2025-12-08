@@ -2,6 +2,7 @@ using Asp.Versioning;
 using Microsoft.EntityFrameworkCore;
 using NearEarthObjectsWebService.EfCore;
 using NearEarthObjectsWebService.EfCore.Interfaces;
+using NearEarthObjectsWebService.Middlewares;
 using NearEarthObjectsWebService.Orchestrators;
 using NearEarthObjectsWebService.Orchestrators.Interfaces;
 using NearEarthObjectsWebService.Services;
@@ -69,6 +70,8 @@ if (app.Environment.IsDevelopment())
         }
     });
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 app.MapGet("/", context =>
