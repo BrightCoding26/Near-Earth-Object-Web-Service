@@ -1,14 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    </PropertyGroup>
+        <UserSecretsId>b6dc7e8a-84a5-4f3d-8438-1780919dc951</UserSecretsId>
+  </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+        <PackageReference Include="FluentValidation" Version="12.1.0" />
         <PackageReference Include="HttpExceptions" Version="1.2.5" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.22" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.22" />
@@ -17,6 +19,7 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Riok.Mapperly" Version="4.3.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.2" />
     </ItemGroup>
 
@@ -28,6 +31,10 @@
 
     <ItemGroup>
       <Folder Include="EfCore\Migrations\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Utility\Helpers\EnvironmentHelper.cs" />
     </ItemGroup>
 
 </Project>

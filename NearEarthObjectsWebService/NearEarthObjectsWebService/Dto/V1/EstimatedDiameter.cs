@@ -1,4 +1,4 @@
-namespace NearEarthObjectsWebService.Dto.Nasa;
+namespace NearEarthObjectsWebService.Dto.V1;
 
 public record EstimatedDiameter
 {
@@ -9,11 +9,4 @@ public record EstimatedDiameter
     public Diameter? Miles { get; set; }
 
     public Diameter? Feet { get; set; }
-}
-
-public record Diameter
-{
-    public required double EstimatedDiameterMin { get; set; }
-
-    public required double EstimatedDiameterMax { get; set; }
 }

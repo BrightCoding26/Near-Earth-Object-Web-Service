@@ -4,11 +4,9 @@ public static class HttpClientExtensions
 {
     public static async ValueTask<HttpResponseMessage> ExecuteGetAsync(
         this HttpClient httpClient,
-        string requestUri,
-        CancellationToken ct = default)
+        string requestUri)
     {
-        httpClient.BaseAddress = new Uri(requestUri);
-        var httpResponseMessage = await httpClient.GetAsync(requestUri, ct);
+        var httpResponseMessage = await httpClient.GetAsync(requestUri);
         httpResponseMessage.EnsureSuccessStatusCode();
         return httpResponseMessage;
     }

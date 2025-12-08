@@ -1,4 +1,4 @@
-namespace NearEarthObjectsWebService.Dto.Nasa;
+namespace NearEarthObjectsWebService.Dto.Nasa.V1;
 
 public record Links
 {
