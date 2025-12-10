@@ -1,28 +1,21 @@
 using System.Net;
-using HttpExceptions.Exceptions;
+
 using NearEarthObjectsWebService.Utility;
 
 namespace NearEarthObjectsWebService.Middlewares;
 
-public sealed class ExceptionMiddleware(RequestDelegate next, ILoggerFactory factory)
+public sealed class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
 {
-    private readonly ILogger<ExceptionMiddleware> _logger = factory.CreateLogger<ExceptionMiddleware>();
-
     public async Task Invoke(HttpContext context)
     {
         try
         {
-            _logger.LogDebug(
-                "Attempting to access Request {Request} within Middleware {Middleware}",
+            logger.LogDebug(
+                "Attempting to access {Request} within Middleware {Middleware}",
                 context.Request,
                 nameof(ExceptionMiddleware));
 
             await next(context);
-        }
-        catch (HttpException httpEx)
-        {
-            context.Response.StatusCode = (int)httpEx.StatusCode;
-            await context.Response.WriteAsJsonAsync($"{httpEx.Message}");
         }
         catch (NasaApiException nasaEx)
         {
@@ -32,7 +25,7 @@ public sealed class ExceptionMiddleware(RequestDelegate next, ILoggerFactory fac
         catch (Exception ex)
         {
             var traceIdGuid = Guid.NewGuid();
-            _logger.LogError(
+            logger.LogError(
                 ex,
                 "An error was caught by the {Middleware} for TraceId " +
                 "{Guid} accessing Request {Request}: Exception - {Message}",

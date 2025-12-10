@@ -1,10 +1,8 @@
 using System.Net;
-using NearEarthObjectsWebService.Dto.Nasa;
 using NearEarthObjectsWebService.Dto.Nasa.V1;
 using NearEarthObjectsWebService.Model;
 using NearEarthObjectsWebService.Services.Interfaces;
 using NearEarthObjectsWebService.Utility;
-using NearEarthObjectsWebService.Utility.Helpers;
 
 namespace NearEarthObjectsWebService.Services;
 
@@ -15,7 +13,7 @@ public sealed class NasaService(IConfiguration config) : INasaService
         BaseAddress = new Uri("https://api.nasa.gov")
     };
 
-    public async Task<Result<NeoByApproachDateResponse>> GetNearEarthObjectsByApproachDateAsync(
+    public async Task<Result<NeoByApproachDateResponse>> GetNeosByApproachDateAsync(
         DateTime? startDate,
         DateTime? endDate)
     {
@@ -28,7 +26,7 @@ public sealed class NasaService(IConfiguration config) : INasaService
         }
         else if (startDate == null || endDate == null)
         {
-            throw new ArgumentException("Both the start date and end date must be either specified or left blank.");
+            throw new BadHttpRequestException("Both the start date and end date must be either specified or left blank.");
         }
         else if (DateHelper.IsDateRangeExceeded(startDate.Value, endDate.Value))
         {

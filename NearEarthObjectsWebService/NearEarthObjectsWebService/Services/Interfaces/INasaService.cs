@@ -6,7 +6,7 @@ namespace NearEarthObjectsWebService.Services.Interfaces;
 
 public interface INasaService
 {
-    Task<Result<NeoByApproachDateResponse>> GetNearEarthObjectsByApproachDateAsync(
+    Task<Result<NeoByApproachDateResponse>> GetNeosByApproachDateAsync(
         DateTime? startDate,
         DateTime? endDate);
 }

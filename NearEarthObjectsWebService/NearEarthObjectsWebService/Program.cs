@@ -1,13 +1,11 @@
 using Asp.Versioning;
 using Microsoft.EntityFrameworkCore;
+using NearEarthObjectsWebService;
 using NearEarthObjectsWebService.EfCore;
 using NearEarthObjectsWebService.EfCore.Interfaces;
 using NearEarthObjectsWebService.Middlewares;
-using NearEarthObjectsWebService.Orchestrators;
-using NearEarthObjectsWebService.Orchestrators.Interfaces;
 using NearEarthObjectsWebService.Services;
 using NearEarthObjectsWebService.Services.Interfaces;
-using NearEarthObjectsWebService.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +16,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 
 builder.Services.AddTransient<IApplicationDbContextFactory<ApplicationDbContext>, ApplicationDbContextFactory>();
 builder.Services.AddTransient<INasaService, NasaService>();
-builder.Services.AddTransient<INearEarthObjectsOrchestrator, NearEarthObjectsOrchestrator>();
+builder.Services.AddTransient<INearEarthObjectsService, NearEarthObjectsService>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();

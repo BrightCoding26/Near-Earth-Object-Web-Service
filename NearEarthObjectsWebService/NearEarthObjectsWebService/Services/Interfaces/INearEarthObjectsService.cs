@@ -1,8 +1,8 @@
 using NearEarthObjectsWebService.Model;
 
-namespace NearEarthObjectsWebService.Orchestrators.Interfaces;
+namespace NearEarthObjectsWebService.Services.Interfaces;
 
-public interface INearEarthObjectsOrchestrator
+public interface INearEarthObjectsService
 {
     Task<Result<Dto.V1.NearEarthObject>> GetLargestNeoDuringBirthWeek(DateTime dateOfBirth);
 }

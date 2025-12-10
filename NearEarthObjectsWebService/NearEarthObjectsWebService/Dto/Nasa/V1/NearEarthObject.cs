@@ -9,7 +9,7 @@ public record NearEarthObject
     public required string Id { get; set; }
 
     [JsonPropertyName("neo_reference_id")]
-    public required string NeoReferenceId { get; set; }
+    public string? NeoReferenceId { get; set; }
 
     public required string Name { get; set; }
 

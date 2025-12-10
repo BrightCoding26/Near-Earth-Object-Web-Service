@@ -1,4 +1,4 @@
-namespace NearEarthObjectsWebService.Utility.Helpers;
+namespace NearEarthObjectsWebService.Utility;
 
 public static class DateHelper
 {

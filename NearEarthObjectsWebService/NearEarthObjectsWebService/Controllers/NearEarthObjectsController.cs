@@ -2,7 +2,7 @@ using System.Net;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NearEarthObjectsWebService.Orchestrators.Interfaces;
+using NearEarthObjectsWebService.Services.Interfaces;
 
 namespace NearEarthObjectsWebService.Controllers;
 
@@ -11,7 +11,7 @@ namespace NearEarthObjectsWebService.Controllers;
 [Route("v{v:apiVersion}/LargestNeoDuringBirthWeek")]
 public class NearEarthObjectsController(
     ILogger<NearEarthObjectsController> logger,
-    INearEarthObjectsOrchestrator nearEarthObjectsService) : ControllerBase
+    INearEarthObjectsService nearEarthObjectsService) : ControllerBase
 {
     [HttpGet]
     [AllowAnonymous]

@@ -1,4 +1,4 @@
-namespace NearEarthObjectsWebService.Utility;
+namespace NearEarthObjectsWebService;
 
 public static class RetryPolicy
 {

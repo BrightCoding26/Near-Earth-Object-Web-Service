@@ -1,19 +1,18 @@
 using System.Net;
 using NearEarthObjectsWebService.Model;
-using NearEarthObjectsWebService.Orchestrators.Interfaces;
 using NearEarthObjectsWebService.Services.Interfaces;
-using NearEarthObjectsWebService.Utility.Helpers;
-using NearEarthObjectsWebService.Utility.Mappers;
+using NearEarthObjectsWebService.Utility;
+using NearEarthObjectMapper = NearEarthObjectsWebService.Utility.NearEarthObjectMapper;
 
-namespace NearEarthObjectsWebService.Orchestrators;
+namespace NearEarthObjectsWebService.Services;
 
-public class NearEarthObjectsOrchestrator(INasaService nasaService) : INearEarthObjectsOrchestrator
+public class NearEarthObjectsService(INasaService nasaService) : INearEarthObjectsService
 {
     public async Task<Result<Dto.V1.NearEarthObject>> GetLargestNeoDuringBirthWeek(DateTime dateOfBirth)
     {
         var result = new Result<Dto.V1.NearEarthObject>();
         var weekDates = DateHelper.FindWeekDates(dateOfBirth);
-        var response = await nasaService.GetNearEarthObjectsByApproachDateAsync(weekDates.StartOfWeek, weekDates.EndOfWeek);
+        var response = await nasaService.GetNeosByApproachDateAsync(weekDates.StartOfWeek, weekDates.EndOfWeek);
 
         if (response.HttpStatusCode == HttpStatusCode.NoContent || !response.Success!.Value)
         {
@@ -24,16 +23,18 @@ public class NearEarthObjectsOrchestrator(INasaService nasaService) : INearEarth
         }
 
         var nearEarthObjects = response.Content?.NearEarthObjects?.SelectMany(kvp => kvp.Value);
+
+        // Stryker disable once Arithmetic: multiplication in place of division still returns desired result.
         var largestNeo = nearEarthObjects?.MaxBy(neo =>
             (neo.EstimatedDiameter.Kilometers?.EstimatedDiameterMin +
-                neo.EstimatedDiameter.Kilometers?.EstimatedDiameterMax) / 2);
+            neo.EstimatedDiameter.Kilometers?.EstimatedDiameterMax) / 2);
 
         if (largestNeo == null)
         {
             throw new InvalidOperationException("Failed to find the largest NEO in the list.");
         }
 
-        result.Content = largestNeo.MapToV1Dto();
+        result.Content = NearEarthObjectMapper.MapToDtoV1(largestNeo);
         result.HttpStatusCode = HttpStatusCode.OK;
         result.Success = true;
         return result;

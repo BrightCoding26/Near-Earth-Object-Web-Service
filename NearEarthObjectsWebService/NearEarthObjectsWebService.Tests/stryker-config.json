@@ -1,0 +1,25 @@
+{
+  "stryker-config": {
+    "reporters": [ "html", "json", "progress" ],
+    "ignore-mutations": [ "block" ],
+    "ignore-methods": [
+      "*Log",
+      "*LogInformation",
+      "*LogWarning",
+      "*LogError",
+      "*LogTrace",
+      "*LogDebug",
+      "*LogCritical",
+      "ConfigureAwait",
+      "Console.Write*",
+      "*Exception.ctor",
+      "*BeginScope"
+    ],
+    "mutate": [
+      "!**/Program.cs",
+      "!**/ConfigureSwaggerOptions.cs",
+      "!**/RetryPolicy.cs",
+      "!**/EfCore/**"
+    ]
+  }
+}

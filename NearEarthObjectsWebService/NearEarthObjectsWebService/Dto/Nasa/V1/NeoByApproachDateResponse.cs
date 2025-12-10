@@ -12,3 +12,5 @@ public record NeoByApproachDateResponse
     [JsonPropertyName("near_earth_objects")]
     public Dictionary<string, List<NearEarthObject>>? NearEarthObjects { get; init; }
 }
+
+
