@@ -11,6 +11,31 @@ public sealed class ConfigureSwaggerOptions(IApiVersionDescriptionProvider provi
 
     public void Configure( SwaggerGenOptions options )
     {
+        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            In = ParameterLocation.Header,
+            Description = "Please enter token",
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            BearerFormat = "JWT",
+            Scheme = "bearer"
+        });
+
+        options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                },
+                []
+            }
+        });
+
         options.SwaggerDoc(VersionAll, CreateOpenApiInfo(VersionAll));
 
         foreach (var version in provider.ApiVersionDescriptions)

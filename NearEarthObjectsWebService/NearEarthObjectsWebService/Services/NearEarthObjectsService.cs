@@ -2,7 +2,6 @@ using System.Net;
 using NearEarthObjectsWebService.Model;
 using NearEarthObjectsWebService.Services.Interfaces;
 using NearEarthObjectsWebService.Utility;
-using NearEarthObjectMapper = NearEarthObjectsWebService.Utility.NearEarthObjectMapper;
 
 namespace NearEarthObjectsWebService.Services;
 
@@ -34,7 +33,7 @@ public class NearEarthObjectsService(INasaService nasaService) : INearEarthObjec
             throw new InvalidOperationException("Failed to find the largest NEO in the list.");
         }
 
-        result.Content = NearEarthObjectMapper.MapToDtoV1(largestNeo);
+        result.Content = largestNeo.MapToDtoV1();
         result.HttpStatusCode = HttpStatusCode.OK;
         result.Success = true;
         return result;

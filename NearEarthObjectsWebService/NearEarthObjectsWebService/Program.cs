@@ -1,5 +1,8 @@
+using System.Text;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using NearEarthObjectsWebService;
 using NearEarthObjectsWebService.EfCore;
 using NearEarthObjectsWebService.EfCore.Interfaces;
@@ -20,6 +23,26 @@ builder.Services.AddTransient<INearEarthObjectsService, NearEarthObjectsService>
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
+
+builder.Services.AddAuthorization();
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        var jwtKey = builder.Configuration["Jwt:Key"] ??
+            throw new InvalidOperationException("JWT Key not found.");
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+        };
+    });
 
 builder.Services.AddMvcCore().AddApiExplorer();
 builder.Services.AddEndpointsApiExplorer();
@@ -48,7 +71,8 @@ const string UsePathBase = "/api";
 
 app.UseForwardedHeaders();
 app.UsePathBase(UsePathBase);
-app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {
@@ -71,7 +95,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<ExceptionMiddleware>();
 
-app.MapControllers();
+app.MapControllers().RequireAuthorization();
 app.MapGet("/", context =>
 {
     context.Response.Redirect(UsePathBase.Trim('/') + "/" + "swagger");

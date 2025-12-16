@@ -8,15 +8,16 @@ namespace NearEarthObjectsWebService.Controllers;
 
 [ApiVersion(1)]
 [ApiController]
-[Route("v{v:apiVersion}/LargestNeoDuringBirthWeek")]
+[Route("v{v:apiVersion}/largestNeoDuringBirthWeek")]
 public class NearEarthObjectsController(
     ILogger<NearEarthObjectsController> logger,
     INearEarthObjectsService nearEarthObjectsService) : ControllerBase
 {
     [HttpGet]
-    [AllowAnonymous]
     [MapToApiVersion(1)]
+    [ProducesResponseType<Dto.V1.NearEarthObject>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> LargestNeoDuringBirthWeekV1([FromQuery] DateTime birthDate)
     {
